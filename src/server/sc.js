@@ -17,9 +17,10 @@ export default function get(link) {
     const UA =
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36";
     const outdir = `./${process.env.OUTPUTDIR}/`;
-    const browser = await launch({ headless:'new',
-      args: [`--user-agent=${UA}`],
-      executablePath:process.env.CHROMEPATH
+    const browser = await launch({
+      headless: 'new',
+      args: [`--user-agent=${UA}`, '--no-sandbox'],
+      executablePath: process.env.CHROMEPATH
     });
     let mainTimeoutId;
     try {
@@ -127,7 +128,7 @@ function makemp3(txtfile, title, resultfilename) {
       .output(resultfilename)
       .on("error", (e) => {
         console.log("Concat finished with errors:", e.message);
-        reject(e.message);
+        reject(e);
       })
       .on("end", async () => {
         console.log("Concat finished.");
@@ -141,7 +142,7 @@ function makemp3(txtfile, title, resultfilename) {
             if (err) console.warn(err);
             else console.log("Metadata finished.");
             fs.unlinkSync(txtfile);
-        resolve();
+            resolve();
           }
         );
       })
