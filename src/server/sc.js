@@ -118,6 +118,7 @@ function makemp3(txtfile, title, resultfilename) {
   return new Promise(async (resolve, reject) => {
     const [song, artist] = title.split(" by ");
     ffmpeg()
+    .setFfmpegPath(process.env.FFMPEGPATH)
       .input(txtfile)
       .inputOptions([
         "-f concat",
