@@ -1,4 +1,4 @@
-import { launch } from "puppeteer";
+import { launch } from 'puppeteer-core';
 import fs from "fs";
 import ffmpeg from "fluent-ffmpeg";
 import { URL } from "url";
@@ -19,6 +19,7 @@ export default function get(link) {
     const outdir = `./${process.env.OUTPUTDIR}/`;
     const browser = await launch({ headless:'new',
       args: [`--user-agent=${UA}`],
+      executablePath:process.env.CHROMEPATH
     });
     let mainTimeoutId;
     try {
