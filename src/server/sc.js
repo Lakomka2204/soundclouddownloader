@@ -64,6 +64,10 @@ export default function get(link) {
       const jsrespromise = page.waitForResponse(
         (res) => res.url().includes("50-000f2d54.js") && res.status() == 200
       );
+      mainTimeoutId = setTimeout(() => {
+        console.log("Timeout");
+        reject("Timeout.");
+      }, 20000);
       await page.goto(link, { waitUntil: "domcontentloaded" });
       const jsresponse = await jsrespromise;
       console.log("Got static JS");
@@ -97,13 +101,6 @@ export default function get(link) {
       });
       await makemp3(listpath, title, resultfilename);
       resolve(resultfilename);
-      await new Promise((r) => {
-        mainTimeoutId = setTimeout(async () => {
-          console.log("Timeout");
-          reject("Timeout.");
-          r();
-        }, 20000);
-      });
     } catch (error) {
       console.error("GLOBAL ERROR", error);
       reject(error.message);
