@@ -65,7 +65,6 @@ methods: {
       });
       clearTimeout(waitPhrase);
       this.downloadPhrase='Download';
-      this.isFetching=false;
       this.error = null;
       this.audioLink = response.data.result;
       this.audioTitle = response.data.title;
@@ -78,6 +77,9 @@ methods: {
       this.error = errmsg;
       if (errmsg == err.message)
       console.error("Internal error",err);
+    }
+    finally{
+      this.isFetching=false;
     }
   }
 }
